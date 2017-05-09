@@ -1,3 +1,18 @@
+cmake_minimum_required(VERSION 2.8.6)
+project(Hashing)
+
+enable_testing()
+
+
+#
+# Add Google Test
+#
+
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/3rdparty")
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/gtest")
+set(LIBRARY_DEPS "gtest")
+
+
 # Declare variables for binaries' names
 get_filename_component(DIR_NAME ${CMAKE_CURRENT_LIST_DIR} NAME)
 set(MODULE      "${DIR_NAME}")
@@ -11,3 +26,5 @@ include_directories("./")
 # Add all submodules
 add_subdirectory(src)
 add_subdirectory(test)
+
+
