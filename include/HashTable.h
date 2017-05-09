@@ -25,7 +25,7 @@ HashTable<K, V>::HashTable(unsigned int size = 16) {
     values.resize(size_);
 }
 template <typename K, typename V>
-HashTable<K, V>::Size() {
+unsigned int HashTable<K, V>::Size() {
     return size_;
 }
 
