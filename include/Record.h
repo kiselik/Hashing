@@ -1,35 +1,40 @@
 #pragma once
-template<typename K, typename V>
+template<typename V>
 class Record
 {
 public:
-    Record(K key, V value);
-    void SetKey(K key); 
-    K GetKey();
+    Record();
+    Record(int key, V value);
+    void SetKey(int key); 
+    int GetKey();
     void SetValue(V value);
     V GetValue();
 private:
-    K key_;
+    int key_;
     V value_;
 };
-template<typename K, typename V>
-Record<K, V>::Record(K key, V value) {
+
+template<typename V>
+Record<V>::Record() : key_(0), value_(V()){}
+
+template<typename V>
+Record<V>::Record(int key, V value) {
     key_ = key;
     value_ = value;
 }
-template<typename K, typename V>
-void Record<K, V>::SetKey(K key) {
+template<typename V>
+void Record<V>::SetKey(int key) {
     key_ = key;
 }
-template<typename K, typename V>
-K Record<K, V>::GetKey() {
+template<typename V>
+int Record<V>::GetKey() {
     return key_;
 }
-template<typename K, typename V>
-void Record<K, V>::SetValue(V value) {
+template<typename V>
+void Record<V>::SetValue(V value) {
     value_ = value;
 }
-template<typename K, typename V>
-V Record<K, V>::GetValue() {
+template<typename V>
+V Record<V>::GetValue() {
     return value_;
 }
