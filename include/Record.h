@@ -26,10 +26,10 @@ K Record<K, V>::GetKey() {
     return key_;
 }
 template<typename K, typename V>
-void Record<K, V>::SetValue(Vvalue) {
+void Record<K, V>::SetValue(V value) {
     value_ = value;
 }
 template<typename K, typename V>
-K Record<K, V>::GetValue() {
+V Record<K, V>::GetValue() {
     return value_;
 }
