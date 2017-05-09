@@ -6,14 +6,14 @@ public:
     void Put(K key, V value);
     unsigned int Size();
     bool ContainsKey(K key);
-    bool ContainsValue(V value);
+    //bool ContainsValue(V value);
     V getValue(K key);
 
 private:
     unsigned int size_;
     std::vector<K> keys;
     std::vector<V> values;
-    void Hash(K key,V value);
+    void HashCode(K key,V value);
     virtual void ConflictResolution() = 0;
 };
 template <typename K, typename V>
@@ -41,3 +41,12 @@ V HashTable<K, V>::getValue(K key) {
     }
     return result;
 }
+
+template <typename K, typename V>
+bool HashTable<K, V>::ContainsKey(K key) {
+    bool result = false;
+    if (getValue(key) != -1) {
+        return true;
+    }
+}
+
