@@ -28,4 +28,13 @@ template <typename K, typename V>
 unsigned int HashTable<K, V>::Size() {
     return size_;
 }
-
+template <typename K, typename V>
+V HashTable<K, V>::getValue(K key) {
+    V result = -1;
+    for (int i = 0; i < keys.size(); i++) {
+        if (keys[i] == key) {
+            //посчитать value
+        }
+    }
+    return result;
+}
