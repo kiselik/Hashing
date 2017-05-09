@@ -13,6 +13,7 @@ private:
     unsigned int size_;
     std::vector<K> keys;
     std::vector<V> values;
+    void Hash(K key,V value);
     virtual void ConflictResolution() = 0;
 };
 template <typename K, typename V>
@@ -24,10 +25,12 @@ HashTable<K, V>::HashTable(unsigned int size = 16) {
     keys.resize(size_);
     values.resize(size_);
 }
+
 template <typename K, typename V>
 unsigned int HashTable<K, V>::Size() {
     return size_;
 }
+
 template <typename K, typename V>
 V HashTable<K, V>::getValue(K key) {
     V result = -1;
