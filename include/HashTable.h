@@ -15,5 +15,14 @@ private:
     std::vector<V> values;
     virtual void ConflictResolution() = 0;
 };
+template <typename K, typename V>
+HashTable<K, V>::HashTable(unsigned int size = 16) {
+    if (!size) {
+        throw std::runtime_error("size can't be equals zero")
+    }
+    size_ = size;
+    keys.resize(size_);
+    values.resize(size_);
+}
 
 
