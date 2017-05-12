@@ -1,46 +1,39 @@
 #include "Record.h"
 #include <vector>
+
 template <typename V>
 class HashTable {
 public:
     HashTable(unsigned int size = 16);
-    int GetSize();
-    bool ContainsKey(int key);
-    void Delete(int key, V value);
-    void Insert(int key, V value);
-    bool IsEmpty();
-    bool IsFull();
+    virtual bool ContainsKey(int key) = 0;
+    virtual void Delete(int key) = 0;
+    virtual void Insert(int key, V value) = 0;
     virtual V SearchValue(int Key) = 0;
 protected:
     unsigned int size_;
-    int data_count_ = 0;
-    std::vector<Record<V>>record_;
-    //void HashCode(K key, V value);
+    unsigned int data_count_;
+
+	virtual void CountHashCoeff() = 0;
     virtual void ConflictResolution() = 0;
+    bool IsEmpty() { return data_count_ == 0; }
+    bool IsFull(); { return data_count_ == size_; } // i have different implementation
 };
+
 template <typename V>
 HashTable<V>::HashTable(unsigned int size = 16) {
     if (!size) {
-        throw std::runtime_error("size can't be equals zero");
+        throw std::runtime_error("Size can't be equals zero");
     }
     size_ = size;
-    record_.resize(size_);
+    data_count_ = 0;
 }
 
-template <typename V>
-int HashTable<V>::GetSize() {
-    return (int)size_;
-}
-
+/*
 template <typename V>
 bool HashTable<V>::ContainsKey(int key) {
-    bool result = false;
-    if (SearchValue(key) != -1) {
-        return true;
-    }
 }
 
-/*template <typename V>
+template <typename V>
 V HashTable<V>::SearchValue(int key) {
     V result = -1;
     for (int i = 0; i < record_.size(); i++) {
@@ -51,7 +44,8 @@ V HashTable<V>::SearchValue(int key) {
 
     }
     return result;
-}*/
+}
+
 template <typename V>
 void HashTable<V>::Delete(int key, V value) {
     if (IsEmpty) {
@@ -63,16 +57,6 @@ void HashTable<V>::Delete(int key, V value) {
 }
 
 template <typename V>
-bool HashTable<V>::IsEmpty() {
-    return data_count_ == 0;
-}
-
-template <typename V>
-bool HashTable<V>::IsFull() {
-    return data_count_ == size_;
-}
-
-template <typename V>
 void HashTable<V>::Insert(int key, V value) {
     if (IsFull) {
         throw std::runtime_error("HashTable is Full");
@@ -80,3 +64,6 @@ void HashTable<V>::Insert(int key, V value) {
     //считаем хэш, ячейку
     // кладем. Как, зависит от метода разрешения коллицизий
 }
+
+*/
+
