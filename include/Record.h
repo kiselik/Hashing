@@ -9,6 +9,7 @@ public:
     int GetKey();
     void SetValue(V value);
     V GetValue();
+    bool operator==(const Record<V>& right) { return key == right.key; }
 private:
     int key_;
     V value_;
