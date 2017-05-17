@@ -24,7 +24,9 @@ public:
     bool ContainsKey(int key);
     void Delete(int key);
     void Insert(int key, V value);
-    V Search(int key);
+    void Insert(Record<V> *r);
+    //V Search(int key); // 
+    Record<V>* Search(int key);
 
 private:
     int a1, b1;
@@ -41,7 +43,7 @@ private:
     void CountHashCoeff();
     void ConflictResolution();
     bool IsFull() { return data_count_ == 2 * size_; }
-    void Insert(Record<V> *r);
+    
 };
 
 template <typename V>
@@ -73,12 +75,12 @@ bool HashTableCuckoo<V>::ContainsKey(int key){
 }
 
 template <typename V>
-V HashTableCuckoo<V>::Search(int key){
+Record<V>* HashTableCuckoo<V>::Search(int key){
     Record<V> *r1 = Table1[h1(key)];
     Record<V> *r2 = Table2[h2(key)];
-    if (r1 && r1->GetKey() == key) return r1->GetValue();
-    if (r2 && r2->GetKey() == key) return r2->GetValue();
-    return 0;
+    if (r1 && r1->GetKey() == key) return r1;
+    if (r2 && r2->GetKey() == key) return r2;
+    return NULL;
 }
 
 template <typename V>

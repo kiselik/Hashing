@@ -26,11 +26,12 @@ double Search_Time_Cuckoo() {
     for (int i = 0; i < COUNT; i++)
         Table.Insert(i, i);
     int res;
+    Record<int> *r;
 
     clock_t begin = clock();
 
     for (int i = 0; i < COUNT; i++)
-        res = Table.Search(i);
+        r = Table.Search(i);
 
     clock_t end = clock();
 

@@ -10,15 +10,21 @@ public:
         CountHashCoeff();
     	record_.resize(size_);
     }
+    ~HashTableChain(){
+        for (int i = 0; i < size_; i++){
+            while (!record_[i].empty()) delete record_[i].front(), record_[i].pop_front();
+        }
+    }
 
     bool ContainsKey(int key);
     void Delete(int key);
     void Insert(int key, V value);
-    V Search(int key);
+    void Insert(Record<V> *r);
+    Record<V>* Search(int key);
 
 private:
 	//std::vector<Record<V>*>record_; было
-    std::vector< std::list<Record<V>> >record_; // массив из списков
+    std::vector< std::list<Record<V> *> >record_; // массив из списков
 	int a,b;	//  ((ax+b)mod p) mod size_; 
 	int p;		//  p = rand && p >=size_
 
@@ -30,41 +36,45 @@ private:
 
 template <typename V>
 bool HashTableChain<V>::ContainsKey(int key) {
-    Record<V> r(key, 1);  // оператор сравнения перегружен - две записи равны, если их ключи совпадают
-    std::list<Record<V>>::iterator findIter = std::find(
-        record_[getHashCode(key)].begin(), record_[getHashCode(key)].end(), r);
-    if (findIter != record_[getHashCode(key)].end()) 
-        // если итератор указывает на end(), то ничего не найдено.
+    if (Search(key) == NULL)
+        return false;
+    else
         return true;
-    return false;
 }
 
 template <typename V>
-V HashTableChain<V>::Search(int key) {
-    Record<V> r(key, 1);  // оператор сравнения перегружен - две записи равны, если их ключи совпадают
-    std::list<Record<V>>::iterator findIter = std::find(
-        record_[getHashCode(key)].begin(), record_[getHashCode(key)].end(), r);
-    if (findIter != record_[getHashCode(key)].end())
-        return его значение;
+Record<V>* HashTableChain<V>::Search(int key) {
+    Record<V> r(key, 1);
+    // оператор сравнения перегружен - две записи равны, если их ключи совпадают
+    for (std::list<Record<V>* >::iterator findIter = record_[getHashCode(key)].begin(); 
+        findIter != record_[getHashCode(key)].end(); findIter++) {
+        if ((*findIter)->GetKey() == r.GetKey()) return *findIter;
+    }
+    return NULL;
 }
 
 template <typename V>
 void HashTableChain<V>::Delete(int key) {
-    if (IsEmpty) {
-        throw std::runtime_error("HashTable is Empty. Can't delete element")
+    if (IsEmpty()) {
+        throw std::runtime_error("HashTable is Empty. Can't delete element");
     }
-    //считаем хэш
-    //далее,все зависит от метода разрешения колллизий
+    record_[getHashCode(key)].remove(Search(key));
     data_count_--;
 }
 
 template <typename V>
 void HashTableChain<V>::Insert(int key, V value) {
-    if (IsFull) {
+    Record<V> *r = new Record<V>(key, value);
+    Insert(r);
+}
+
+template <typename V>
+void HashTableChain<V>::Insert(Record<V> *r) {
+    if (IsFull()) {
         throw std::runtime_error("HashTable is Full");
     }
-//считаем хэш, ячейку
-// кладем. Как, зависит от метода разрешения коллицизий
+    record_[getHashCode(r->GetKey())].push_back(r);
+    data_count_++;
 }
 
 template <typename V>
@@ -81,5 +91,5 @@ int HashTableChain<V>::getHashCode(int key) {
 
 template <typename V>
 void HashTableChain<V>::ConflictResolution() {
-
+    
 }

@@ -1,16 +1,15 @@
-#include "include/HashTableCuckoo.h"
-// заменить на #include "include/HashTableChain.h"
+#include "include/HashTableChain.h"
 #include <ctime>
 #include <iostream>
 #include <map>
 
 using namespace std;
 
-const int SIZE = 120000;
-const int COUNT = 100000;
+int SIZE;
+int COUNT;
 
-double Insert_Time_Cuckoo() {
-	HashTableCuckoo<int> Table(SIZE);
+double Insert_Time_Chain() {
+	HashTableChain<int> Table(SIZE);
 	
 	clock_t begin = clock();
 
@@ -22,18 +21,21 @@ double Insert_Time_Cuckoo() {
 	return double(end - begin) / CLOCKS_PER_SEC;
 }
 
-double Search_Time_Cuckoo() {
-    HashTableCuckoo<int> Table(SIZE);
+double Search_Time_Chain() {
+    HashTableChain<int> Table(SIZE);
     for (int i = 0; i < COUNT; i++)
         Table.Insert(i, i);
-    int res;
-
+    std::vector<int> v(SIZE);
     clock_t begin = clock();
 
     for (int i = 0; i < COUNT; i++)
-        res = Table.Search(i);
+        v[i] = (Table.Search(i))->GetKey();
 
     clock_t end = clock();
+
+    for (int i = 0; i < COUNT; i++)
+    if (v[i] != i)
+        cout << "Error in search";
 
     return double(end - begin) / CLOCKS_PER_SEC;
 }
@@ -55,14 +57,18 @@ double Search_Time_Map() {
     std::map<int, int> Map;
     for (int i = 0; i < COUNT; i++)
         Map[i] = i;
-    int res;
+    std::vector<int> v(SIZE);
 
     clock_t begin = clock();
 
     for (int i = 0; i < COUNT; i++)
-        res = Map.at(i);
+        v[i] = Map.at(i);
 
     clock_t end = clock();
+
+    for (int i = 0; i < COUNT; i++)
+    if (v[i] != i)
+        cout << "Error in search";
 
     return double(end - begin) / CLOCKS_PER_SEC;
 }
@@ -71,15 +77,18 @@ double Search_Time_Map() {
 
 int main() {
     // время суммируется, надо делить его на число элементов?
-    printf("Size %d \n", SIZE);
+    printf("Input size of table\n", SIZE);
+    scanf("%d", &SIZE);
+    printf("Input number of elements to insert\n", SIZE);
+    scanf("%d", &COUNT);
     getchar();
-	printf("Cuckoo avg insert time: %.4lf", Insert_Time_Cuckoo() );
+	printf("Chain avg insert time: %.4lf", Insert_Time_Chain() );
     getchar();
     printf("Std map insert time:    %.4lf\n", Insert_Time_Map());
 
     getchar();
-    printf("Cuckoo avg search time: %.4lf", Search_Time_Cuckoo());
+    printf("Chain avg search time: %.4lf", Search_Time_Chain());
     getchar();
-    printf("Std map search time:    %.4lf", Search_Time_Map());
+    printf("Std map search time:    %.4lf\n", Search_Time_Map());
 
 }

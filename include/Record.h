@@ -9,7 +9,6 @@ public:
     int GetKey();
     void SetValue(V value);
     V GetValue();
-    bool operator==(const Record<V>& right) { return key == right.key; }
 private:
     int key_;
     V value_;
@@ -43,3 +42,4 @@ template<typename V>
 V Record<V>::GetValue() {
     return value_;
 }
+

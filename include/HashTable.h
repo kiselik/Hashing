@@ -8,7 +8,7 @@ public:
     virtual bool ContainsKey(int key) = 0;
     virtual void Delete(int key) = 0;
     virtual void Insert(int key, V value) = 0;
-    virtual V Search(int Key) = 0;
+    virtual Record<V>* Search(int Key) = 0;
     int GetSize() { return data_count_; } // Number of inserted elements
 protected:
     unsigned int size_;
