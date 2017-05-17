@@ -13,6 +13,13 @@ public:
         Table2.resize(size);
         rehash_retries = 0;
     }
+    ~HashTableCuckoo() {
+        for (int i = 0; i < size_; i++){
+            if (Table1[i] != 0) delete Table1[i];
+            if (Table2[i] != 0) delete Table2[i];
+        }
+    }
+
 
     bool ContainsKey(int key);
     void Delete(int key);
