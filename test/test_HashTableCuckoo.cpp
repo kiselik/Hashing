@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 #include "include\HashTableCuckoo.h"
 
-
 TEST(HashTableCuckoo_Test, Can_Not_Create_Table_Witn_Zero_Size) {
     EXPECT_ANY_THROW(HashTableCuckoo<int>(0));
 }
