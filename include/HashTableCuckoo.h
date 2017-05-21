@@ -120,6 +120,7 @@ void HashTableCuckoo<V>::Insert(Record<V> *r){
     }
     if (IsFull()) {
         printf("HashTable is Full\n");
+        return;
     }
     Record<V> *buf;
     int retries = 0;
