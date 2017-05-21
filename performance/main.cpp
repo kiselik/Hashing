@@ -9,7 +9,7 @@ using namespace std;
 
 int kSIZE;
 int COUNT;
-int kADD = 9000;
+int kADD = 7000;
 
 double Insert_Time_Chain() {
 	HashTableChain<int> Table(kSIZE);
@@ -56,6 +56,21 @@ double Insert_Time_Cuckoo() {
     return double(end - begin) / CLOCKS_PER_SEC;
 }
 
+double Search_Time_Cuckoo() {
+    HashTableCuckoo<int> Table(kSIZE);
+    for (int i = 0; i < COUNT + kADD; i++)
+        Table.Insert(i, i);
+
+    clock_t begin = clock();
+
+    for (int i = 0; i < kADD; i++)
+        Table.Search(i);
+
+    clock_t end = clock();
+
+    return double(end - begin) / CLOCKS_PER_SEC;
+}
+
 double Delete_Time_Cuckoo() {
     HashTableCuckoo<int> Table(kSIZE);
     for (int i = 0; i < COUNT + kADD; i++)
@@ -85,20 +100,7 @@ double Search_Time_Chain() {
     return double(end - begin) / CLOCKS_PER_SEC;
 }
 
-double Search_Time_Cuckoo() {
-    HashTableCuckoo<int> Table(kSIZE);
-    for (int i = 0; i < COUNT + kADD; i++)
-        Table.Insert(i, i);
 
-    clock_t begin = clock();
-
-    for (int i = 0; i < kADD; i++)
-        Table.Search(i);
-
-    clock_t end = clock();
-
-    return double(end - begin) / CLOCKS_PER_SEC;
-}
 
 double Insert_Time_Map() {
 	std::map<int, int> Map;
@@ -146,7 +148,7 @@ double Delete_Time_Map() {
 }
 
 typedef double(*function)();
-const int kCountArr[] = { 200000, 250000, 300000, 350000, 400000, 450000, 500000, 550000, 600000 };
+const int kCountArr[] = { 150000, 200000, 250000, 300000, 350000, 400000, 450000, 500000};
 
 double getTime(function f){
     double sum = 0;
@@ -157,12 +159,12 @@ double getTime(function f){
 
 void measure(function f){
     double arr[9];
-    for (int i = 0; i < 9; i++){
+    for (int i = 0; i < 8; i++){
         COUNT = kCountArr[i];
-        kSIZE = COUNT * 1.13;
+        kSIZE = COUNT * 1.15;
         arr[i] = getTime(f);
     }
-    for (int i = 0; i < 9; i++){
+    for (int i = 0; i < 8; i++){
         printf("%d: ", kCountArr[i]);
         printf("%.9lf\n", arr[i]);
     }
