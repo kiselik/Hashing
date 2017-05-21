@@ -32,7 +32,7 @@ private:
     int a1, b1;
     int a2, b2;
     int p; // >= size_
-    const int MAX_TRANSFER_RETRIES = 10;
+    const int MAX_TRANSFER_RETRIES = 25;
     int rehash_retries;
 
     std::vector<Record<V> *> Table1;
@@ -42,7 +42,7 @@ private:
     int h2(int key);
     void CountHashCoeff();
     void ConflictResolution();
-    bool IsFull() { return data_count_ == 2 * size_; }
+    bool IsFull() { return data_count_ == 2* size_; }
     
 };
 
@@ -120,14 +120,13 @@ void HashTableCuckoo<V>::Insert(Record<V> *r){
     }
     if (IsFull()) {
         printf("HashTable is Full\n");
-        return;
     }
     Record<V> *buf;
     int retries = 0;
-    data_count_++;
     for (; retries < MAX_TRANSFER_RETRIES; retries++){
         if (Table1[h1(r->GetKey())] == 0){
             Table1[h1(r->GetKey())] = r;
+            data_count_++;
             return;
         }
         buf = Table1[h1(r->GetKey())];
@@ -136,6 +135,7 @@ void HashTableCuckoo<V>::Insert(Record<V> *r){
 
         if (Table2[h2(r->GetKey())] == 0){
             Table2[h2(r->GetKey())] = r;
+            data_count_++;
             return;
         }
         buf = Table2[h2(r->GetKey())];
@@ -145,7 +145,8 @@ void HashTableCuckoo<V>::Insert(Record<V> *r){
     if (retries == MAX_TRANSFER_RETRIES){
         ConflictResolution();
         rehash_retries++;
-        if (rehash_retries > 4){
+        if (rehash_retries > 10){
+            printf("Too many rehash\n");
             throw "Too many rehash";
         }
         Insert(r); 
