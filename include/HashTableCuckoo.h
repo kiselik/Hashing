@@ -114,7 +114,13 @@ void HashTableCuckoo<V>::Insert(int key, V value){
 
 template <typename V>
 void HashTableCuckoo<V>::Insert(Record<V> *r){
-    if (ContainsKey(r->GetKey())) return; // throw?
+    if (ContainsKey(r->GetKey())) {
+        printf("Element with key alreadyin table");
+        return; // throw?
+    }
+    if (IsFull()) {
+        printf("HashTable is Full\n");
+    }
     Record<V> *buf;
     int retries = 0;
     data_count_++;

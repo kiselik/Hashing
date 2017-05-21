@@ -18,7 +18,7 @@ double Insert_Time_Chain() {
 
 	clock_t end = clock();
 	
-	return double(end - begin) / CLOCKS_PER_SEC;
+	return double(end - begin) / (CLOCKS_PER_SEC*COUNT);
 }
 
 double Search_Time_Chain() {
@@ -37,7 +37,7 @@ double Search_Time_Chain() {
     if (v[i] != i)
         cout << "Error in search";
 
-    return double(end - begin) / CLOCKS_PER_SEC;
+    return double(end - begin) / (CLOCKS_PER_SEC*COUNT);
 }
 
 double Insert_Time_Map() {
@@ -50,7 +50,7 @@ double Insert_Time_Map() {
 
 	clock_t end = clock();
 
-	return double(end - begin) / CLOCKS_PER_SEC;
+	return double(end - begin) / (CLOCKS_PER_SEC*COUNT);
 }
 
 double Search_Time_Map() {
@@ -70,7 +70,7 @@ double Search_Time_Map() {
     if (v[i] != i)
         cout << "Error in search";
 
-    return double(end - begin) / CLOCKS_PER_SEC;
+    return double(end - begin) / (CLOCKS_PER_SEC*COUNT);
 }
 
 
@@ -79,16 +79,17 @@ int main() {
     // время суммируется, надо делить его на число элементов?
     printf("Input size of table\n", SIZE);
     scanf("%d", &SIZE);
-    printf("Input number of elements to insert\n", SIZE);
+    printf("Input number of elements to insert\n", COUNT);
     scanf("%d", &COUNT);
     getchar();
-	printf("Chain avg insert time: %.4lf", Insert_Time_Chain() );
+	printf("Chain avg insert time: %.9lf", Insert_Time_Chain() );
     getchar();
-    printf("Std map insert time:    %.4lf\n", Insert_Time_Map());
+    printf("Std map insert time:    %.9lf\n", Insert_Time_Map());
 
     getchar();
-    printf("Chain avg search time: %.4lf", Search_Time_Chain());
+    printf("Chain avg search time: %.9lf", Search_Time_Chain());
     getchar();
-    printf("Std map search time:    %.4lf\n", Search_Time_Map());
+    printf("Std map search time:    %.9lf\n", Search_Time_Map());
+    getchar();
 
 }

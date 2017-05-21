@@ -23,7 +23,6 @@ public:
     Record<V>* Search(int key);
 
 private:
-	//std::vector<Record<V>*>record_; было
     std::vector< std::list<Record<V> *> >record_; // массив из списков
 	int a,b;	//  ((ax+b)mod p) mod size_; 
 	int p;		//  p = rand && p >=size_
@@ -71,7 +70,10 @@ void HashTableChain<V>::Insert(int key, V value) {
 template <typename V>
 void HashTableChain<V>::Insert(Record<V> *r) {
     if (IsFull()) {
-        throw std::runtime_error("HashTable is Full");
+        printf("HashTable is Full");
+    }
+    if (Search(r->GetKey())) {
+        printf("Element with thiskey is alreadyin table");
     }
     record_[getHashCode(r->GetKey())].push_back(r);
     data_count_++;

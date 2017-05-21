@@ -1,6 +1,8 @@
 #include "Record.h"
 #include <vector>
 
+#pragma once
+
 template <typename V>
 class HashTable {
 public:
@@ -16,7 +18,7 @@ protected:
 	virtual void CountHashCoeff() = 0;
     virtual void ConflictResolution() = 0;
     bool IsEmpty() { return data_count_ == 0; }
-    virtual bool IsFull() = 0; // i have different implementation
+    virtual bool IsFull() = 0; 
 };
 
 template <typename V>
