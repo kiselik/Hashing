@@ -32,7 +32,7 @@ private:
     int a1, b1;
     int a2, b2;
     int p; // >= size_
-    const int MAX_TRANSFER_RETRIES = 25;
+    const int MAX_TRANSFER_RETRIES = 15;
     int rehash_retries;
 
     std::vector<Record<V> *> Table1;
@@ -162,6 +162,8 @@ void HashTableCuckoo<V>::ConflictResolution(){
     t2.swap(Table2);
 
     CountHashCoeff();
+
+    data_count_ = 0;
 
     for (int i = 0; i < size_; i++){
         if (t1[i] != 0) Insert(t1[i]);
